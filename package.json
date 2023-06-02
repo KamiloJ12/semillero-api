@@ -4,8 +4,11 @@
   "description": "Api del semillero de investigacion de redes y ciberseguridad de la Univarsidad Francisco de Paula Santander",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./src/app.js"
+    "migrate": "npx sequelize-cli db:migrate",
+    "init": "node ./src/app.js",
+    "start": "npm run migrate && npm run init",
+    "dev": "nodemon ./src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Camilo Jaimes",
   "license": "ISC",
