@@ -10,7 +10,8 @@ const getProyectos = async(req = request, res = response) => {
             Proyecto.count(),
             Proyecto.findAll({
                 offset: desde,
-                limit: limite
+                limit: limite,
+                include: 'divulgador'
             })
         ]); 
 

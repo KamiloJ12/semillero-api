@@ -10,7 +10,7 @@ const router = Router();
 
 router.get('/', getProyectos );
 router.post('/', [ validarJWT ], createProyecto );
-router.get('/:id', [ validarJWT ], getProyectoById );
+router.get('/:id', getProyectoById );
 router.put('/:id', [ validarJWT ], updateProyecto );
 router.put('/:id/desactivate', [ validarJWT ], deleteProyecto );
 

@@ -8,7 +8,7 @@ const { getEventos, getEventoById, createEvento, updateEvento, deleteEvento } = 
 const router = Router();
 
 router.get('/', getEventos );
-router.get('/:id', [ validarJWT ], getEventoById );
+router.get('/:id', getEventoById );
 router.post('/', [ validarJWT ], createEvento );
 router.put('/:id', [ validarJWT ], updateEvento );
 router.put('/:id/desactivate', [ validarJWT ], deleteEvento );
