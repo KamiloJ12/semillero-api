@@ -14,6 +14,6 @@ router.post('/login', [
     validarCampos
 ], login );
 
-router.get('/verify-token', [ validarJWT  ], verifyToken );
+router.get('/verify-token', [ validarJWT ], verifyToken );
 
 module.exports = router;

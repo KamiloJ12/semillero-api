@@ -34,7 +34,16 @@ const getEventos = async(req = request, res = response) => {
 const getEventoById = async(req = request, res = response) => {
     try {
         const { id } = req.params;
-        const evento = await Evento.findByPk(id);
+        const evento = await Evento.findOne({
+            where: { id: id },
+            include: [
+                {
+                  model: Administrador,
+                  as: 'divulgador',
+                  attributes: ['id', 'nombre', 'codigo', 'imagen', 'correo']
+                },
+            ], 
+        });
         res.json(evento);
     } catch (error) {
         res.status(500).json({

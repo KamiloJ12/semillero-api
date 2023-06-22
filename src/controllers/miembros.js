@@ -1,6 +1,6 @@
 const { response, request } = require('express');
 
-const { Miembro } = require('../models');
+const { Miembro, Proyecto } = require('../models');
 const { subirArchivo, actualizarArchivo } = require('../helpers');
 
 const getMiembros = async(req = request, res = response) => {
@@ -27,7 +27,13 @@ const getMiembros = async(req = request, res = response) => {
 const getMiembroById = async(req = request, res = response) => {
     try {
         const { id } = req.params;
-        const miembro = await Miembro.findByPk(id);
+        const miembro = await Miembro.findOne({
+            where: { id: id },
+            include: { 
+                model: Proyecto,
+                as: 'proyectos' 
+            } 
+        });
         res.json(miembro);
     } catch (error) {
         res.status(500).json({
@@ -46,7 +52,6 @@ const createMiembro = async(req, res = response) => {
         const miembro = await Miembro.create(data);
         res.json({ miembro });
     } catch (error) {
-        console.log(error);
         res.status(500).json({
             code: 500,
             message: 'Ocurrio un error en el servidor'

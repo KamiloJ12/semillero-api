@@ -27,9 +27,14 @@ const getProyectos = async(req = request, res = response) => {
 const getProyectoById = async(req = request, res = response) => {
     try {
         const { id } = req.params;
-        const proyecto = await Proyecto.findByPk(id);
+        const proyecto = await Proyecto.findOne({
+            where: { id: id },
+            include: 'equipo' 
+        });
+        console.log(proyecto);
         res.json(proyecto);
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             code: 500,
             message: 'Ocurrio un error en el servidor'
@@ -65,9 +70,26 @@ const updateProyecto = async(req, res = response) => {
         const { id } = req.params;
         const { id: _id, ...resto } = req.body;
 
-        const proyecto = await Proyecto.update(resto, {
+        await Proyecto.update(resto, {
             where: { id }
           });
+         
+        await MiembroProyecto.destroy({
+            where: { proyecto_id: id }
+          });  
+
+        await MiembroProyecto.bulkCreate(
+            resto.equipo.map(miembro => ({
+              proyecto_id: id,
+              miembro_id: miembro.id
+            }))
+          );
+
+        const proyecto = await Proyecto.findOne({
+            where: { id: id },
+            include: 'equipo' 
+        });
+          
         res.json(proyecto);
     } catch (error) {
         console.log(error);

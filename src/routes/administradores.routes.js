@@ -2,10 +2,9 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { validarJWT } = require('../middlewares');
+const { validarJWT, tieneRole } = require('../middlewares');
 /*
 const { validarCampos, validarJWT, tieneRole } = require('../middlewares');
-const { esRoleValido, emailExiste, existeUsuarioPorId } = require('../helpers/db-validators');
 */
 
 const { getAdministradores,
@@ -17,11 +16,25 @@ const { getAdministradores,
 
 const router = Router();
 
-router.get('/', [ validarJWT ], getAdministradores );
-router.get('/:id', [ validarJWT ], getAdministradorById );
-router.post('/', [ validarJWT ], createAdministrador );
-router.put('/:id', [ validarJWT ], updateAdministrador );
-router.delete('/:id', [ validarJWT ], deleteAdministrador );
+router.get('/', [ 
+    validarJWT,
+    tieneRole('Superadministrador'), 
+], getAdministradores );
+router.get('/:id', [ 
+    validarJWT,
+    tieneRole('Superadministrador', 'Administrador')
+], getAdministradorById );
+router.post('/', [ 
+    validarJWT,
+    tieneRole('Superadministrador')
+], createAdministrador );
+router.put('/:id', [ validarJWT,
+    tieneRole('Superadministrador', 'Administrador')
+], updateAdministrador );
+router.put('/:id/desactivate', [ 
+    validarJWT,
+    tieneRole('Superadministrador')
+], deleteAdministrador );
 /* 
 router.put('/:id',[
     check('id').custom( existeUsuarioPorId ),

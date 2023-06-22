@@ -16,6 +16,8 @@ class Server {
             administradores: '/api/administradores',
             miembros:        '/api/miembros',
             uploads:         '/api/uploads',
+            semillero:       '/api/semillero',
+            diapositivas:    '/api/diapositivas'
         }
 
         // Middlewares
@@ -50,6 +52,8 @@ class Server {
         this.app.use( this.paths.administradores, require('./routes/administradores.routes'));
         //this.app.use( this.paths.buscar, require('../routes/buscar'));
         this.app.use( this.paths.eventos, require('./routes/eventos.routes'));
+        this.app.use( this.paths.diapositivas, require('./routes/diapositivas.routes'));
+        this.app.use( this.paths.semillero, require('./routes/semillero.routes'));
         this.app.use( this.paths.proyectos, require('./routes/proyectos.routes'));
         this.app.use( this.paths.miembros, require('./routes/miembros.routes'));
         this.app.use( this.paths.uploads, require('./routes/uploads.routes'));        

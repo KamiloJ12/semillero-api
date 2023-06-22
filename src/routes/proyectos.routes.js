@@ -12,7 +12,7 @@ router.get('/', getProyectos );
 router.post('/', [ validarJWT ], createProyecto );
 router.get('/:id', [ validarJWT ], getProyectoById );
 router.put('/:id', [ validarJWT ], updateProyecto );
-router.delete('/:id', [ validarJWT ], deleteProyecto );
+router.put('/:id/desactivate', [ validarJWT ], deleteProyecto );
 
 
 module.exports = router;
